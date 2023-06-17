@@ -7,26 +7,21 @@ const bodyParser = require('body-parser');
 const authRoutes = require('./routes/auth/auth.js')
 require('dotenv').config();
 
-app.use(bodyParser.urlencoded({ extended: false }));
 
 // parse application/json
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cors());
 
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.send('Hello World!');
+});
+app.get('/verify', (req, res) => {
+  res.send('verification page!');
 });
 
-app.use('/', authRoutes)
 
-// app.post('/', (req, res) => {
-//   const user = new User(req.body);
-//   user.save().then(response => {
-//    return res.status(200).json(response);
-//   }).catch(error => {
-//    return res.status(500).json({ error: error.message });
-//   })
-// });
+app.use('/', authRoutes);
 
 mongoose
   .connect(process.env.MONGO_URI)
