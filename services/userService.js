@@ -45,9 +45,8 @@ const emailVerification = async body => {
   
   const result = await 
   transporter.sendMail({
-    // to: email,
-    to: 'alexastojcevic@yahoo.com',
-    from: 'programmingandtestingcode@gmail.com',
+    to: email,
+    from:  process.env.TEST_EMAIL ,
     subject: 'verification-email',
     html: '<h1>Verify your email address to complete the signup and login into your account!</h1> <a href="http://localhost:3000/rredirect/success">Click here</a>'
   });
