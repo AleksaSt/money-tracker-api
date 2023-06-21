@@ -29,6 +29,12 @@ exports.registerUser = async (req, res) => {
 			return res.status(400).json({ error: 'User not created.' });
 		}
 
+    const token = await userService.createToken(user._id);
+    console.log(token)
+    const maxAge = 3 * 24 * 60 * 60 * 1000
+    res.cookie('jwt', token, { httpOnly: true, maxAge: maxAge });
+    // res.status(201).json({ user: user._id });
+  
 		const verificationResult = await userService.emailVerification(body);
 		console.log(verificationResult)
 		if(verificationResult){

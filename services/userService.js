@@ -2,7 +2,8 @@ const User = require("../models/User");
 const bcrypt = require('bcrypt');
 const nodemailer = require('nodemailer');
 const sendgridTransport = require('nodemailer-sendgrid-transport');
-
+const jwt = require('jsonwebtoken');
+require('dotenv').config();
 //Registration
 
 //Creating user, hashing password, saving to database
@@ -38,22 +39,29 @@ const emailVerification = async body => {
   const email = body.email;
   const transporter = nodemailer.createTransport(sendgridTransport({
     auth: {
-      api_key: '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'
+      api_key: process.env.API_KEY
     }
   }));
   
   const result = await 
   transporter.sendMail({
-    to: email,
+    // to: email,
+    to: 'alexastojcevic@yahoo.com',
     from: 'programmingandtestingcode@gmail.com',
     subject: 'verification-email',
-    html: '<h1>Verification successful!</h1>'
+    html: '<h1>Verify your email address to complete the signup and login into your account!</h1> <a href="http://localhost:3000/rredirect/success">Click here</a>'
   });
   return result;
+}
+
+const createToken = async (id) => {
+  const maxAge =  3 * 24 * 60 * 60;
+  return jwt.sign({ id }, 'nodejs secret', { expiresIn: maxAge } )
 }
 
 module.exports = {
 	createUser,
   findRegisteredUserByEmail,
-  emailVerification
+  emailVerification,
+  createToken
 }

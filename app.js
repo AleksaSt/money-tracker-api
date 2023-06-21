@@ -3,14 +3,16 @@ const mongoose = require('mongoose');
 const cors = require('cors')
 const app = express();
 const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser')
 //Routes
-const authRoutes = require('./routes/auth/auth.js')
+const authRoutes = require('./routes/auth/auth.js');
 require('dotenv').config();
 
 
 // parse application/json
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
 app.use(cors());
 
 app.get('/', (req, res) => {
@@ -19,7 +21,6 @@ app.get('/', (req, res) => {
 app.get('/verify', (req, res) => {
   res.send('verification page!');
 });
-
 
 app.use('/', authRoutes);
 
