@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const AccountSchema = require("../models/Account");
 
 const UsersSchema = new Schema({
 	email: {
@@ -21,7 +22,12 @@ const UsersSchema = new Schema({
 	username: {
 		type: String,
 		required: true
-	}
+	},
+  verified: {
+		type: Boolean,
+    default: false
+  },
+  accounts: [AccountSchema.schema]
 })
 
 module.exports = mongoose.model('users', UsersSchema);
